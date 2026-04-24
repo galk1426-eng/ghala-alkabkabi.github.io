@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -52,6 +52,16 @@
 
     .navbar a:hover {
       color: #ffffff;
+    }
+
+    .lang-btn {
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      background: rgba(255, 255, 255, 0.08);
+      color: #ffffff;
+      cursor: pointer;
+      font-weight: 700;
     }
 
     .brand {
@@ -147,7 +157,39 @@
       transform: translate(-50%, -50%);
       perspective: 1100px;
       pointer-events: none;
-      transition: opacity 0.4s ease;
+      transition: opacity 0.4s ease, left 0.4s ease;
+    }
+
+    body.en .phone-stage {
+      left: 78%;
+    }
+
+    body.ar .phone-stage {
+      left: 22%;
+    }
+
+    body.ar {
+      direction: rtl;
+    }
+
+    body.en {
+      direction: ltr;
+    }
+
+    body.en .hero-content {
+      text-align: left;
+    }
+
+    body.ar .hero-content {
+      text-align: right;
+    }
+
+    body.en .hero {
+      justify-content: flex-start;
+    }
+
+    body.ar .hero {
+      justify-content: flex-end;
     }
 
     .phone-3d {
@@ -190,6 +232,10 @@
       justify-content: space-between;
       color: #ffffff;
       text-align: left;
+    }
+
+    body.ar .phone-content {
+      text-align: right;
     }
 
     .phone-notch {
@@ -430,6 +476,11 @@
         opacity: 0.45;
       }
 
+      body.en .phone-stage,
+      body.ar .phone-stage {
+        left: 50%;
+      }
+
       .project-grid,
       .about {
         grid-template-columns: 1fr;
@@ -441,14 +492,15 @@
     }
   </style>
 </head>
-<body>
+<body class="en">
   <div class="brand">GHALA</div>
 
   <nav class="navbar">
-    <a href="#home">Home</a>
-    <a href="#projects">Projects</a>
-    <a href="#about">About</a>
-    <a href="#contact">Contact</a>
+    <a href="#home" data-en="Home" data-ar="الرئيسية">Home</a>
+    <a href="#projects" data-en="Projects" data-ar="المشاريع">Projects</a>
+    <a href="#about" data-en="About" data-ar="عنّي">About</a>
+    <a href="#contact" data-en="Contact" data-ar="تواصل">Contact</a>
+    <button class="lang-btn" id="langBtn">AR</button>
   </nav>
 
   <div class="phone-stage" id="phoneStage">
@@ -546,16 +598,156 @@
   <script>
     const phone = document.getElementById('phone3d');
     const phoneStage = document.getElementById('phoneStage');
+    const langBtn = document.getElementById('langBtn');
+
+    const translations = {
+      en: {
+        brand: "GHALA",
+        navHome: "Home",
+        navProjects: "Projects",
+        navAbout: "About",
+        navContact: "Contact",
+        eyebrow: "Human-Computer Interaction Student",
+        title: "Ghala<br />Alkabkabi",
+        desc: "I design user-centered and accessible digital experiences through UI/UX design, usability thinking, and front-end development.",
+        view: "View Projects",
+        contactBtn: "Contact Me",
+        phoneTitle: "UI/UX<br />Portfolio",
+        selectedWork: "Selected Work",
+        projectsTitle: "Projects Coming Soon",
+        projectsDesc: "These project cards are ready. Replace the placeholder text and images with your Figma projects when you finish them.",
+        project01: "PROJECT 01",
+        project01Title: "Mobile App Design",
+        project01Desc: "A user-centered mobile app case study focused on simple navigation, clear visual hierarchy, and accessible interaction.",
+        project01Tag: "Figma Case Study",
+        project02: "PROJECT 02",
+        project02Title: "Website Redesign",
+        project02Desc: "A redesign project that improves usability, content structure, and overall user experience for a digital service.",
+        project02Tag: "UI/UX Redesign",
+        project03: "PROJECT 03",
+        project03Title: "E-Commerce Experience",
+        project03Desc: "A shopping experience designed to make browsing, product selection, and checkout easier and more trustworthy.",
+        project03Tag: "Product Design",
+        aboutSpan: "About Me",
+        aboutTitle: "Designing simple and accessible digital experiences.",
+        aboutDesc: "I am a Human-Computer Interaction student interested in UI/UX design, accessibility, usability testing, and front-end development.",
+        aboutBox: "I focus on understanding user needs and transforming them into clear, usable, and visually organized interfaces. My goal is to build digital products that are easy to use, responsive, and accessible for different users.",
+        contactTitle: "Let’s Work Together",
+        contactDesc: "I am currently seeking a cooperative training opportunity where I can apply UI/UX design, HCI principles, and front-end development skills.",
+        footer: "© 2026 Ghala Alkabkabi. All rights reserved."
+      },
+      ar: {
+        brand: "غلا",
+        navHome: "الرئيسية",
+        navProjects: "المشاريع",
+        navAbout: "عنّي",
+        navContact: "تواصل",
+        eyebrow: "طالبة تفاعل إنسان-حاسب",
+        title: "غلا<br />الكبكبي",
+        desc: "أصمم تجارب رقمية سهلة الاستخدام وقابلة للوصول من خلال تصميم واجهات وتجربة المستخدم، والتفكير في قابلية الاستخدام، وتطوير الواجهات الأمامية.",
+        view: "عرض المشاريع",
+        contactBtn: "تواصل معي",
+        phoneTitle: "ملف<br />الأعمال",
+        selectedWork: "أعمال مختارة",
+        projectsTitle: "المشاريع قريبًا",
+        projectsDesc: "بطاقات المشاريع جاهزة. استبدلي النصوص والصور لاحقًا بمشاريع Figma بعد الانتهاء منها.",
+        project01: "المشروع 01",
+        project01Title: "تصميم تطبيق جوال",
+        project01Desc: "دراسة حالة لتطبيق جوال يركز على سهولة التنقل، وضوح التسلسل البصري، وتجربة استخدام قابلة للوصول.",
+        project01Tag: "دراسة حالة Figma",
+        project02: "المشروع 02",
+        project02Title: "إعادة تصميم موقع",
+        project02Desc: "مشروع إعادة تصميم يهدف إلى تحسين قابلية الاستخدام، وتنظيم المحتوى، وتجربة المستخدم لخدمة رقمية.",
+        project02Tag: "إعادة تصميم UI/UX",
+        project03: "المشروع 03",
+        project03Title: "تجربة متجر إلكتروني",
+        project03Desc: "تجربة تسوق مصممة لتسهيل التصفح، واختيار المنتجات، وإتمام عملية الشراء بثقة.",
+        project03Tag: "تصميم منتج",
+        aboutSpan: "عنّي",
+        aboutTitle: "تصميم تجارب رقمية بسيطة وقابلة للوصول.",
+        aboutDesc: "أنا طالبة في تخصص تفاعل الإنسان مع الحاسب، مهتمة بتصميم واجهات وتجربة المستخدم، وإمكانية الوصول، واختبارات قابلية الاستخدام، وتطوير الواجهات الأمامية.",
+        aboutBox: "أركز على فهم احتياجات المستخدمين وتحويلها إلى واجهات واضحة، سهلة الاستخدام، ومنظمة بصريًا. هدفي هو بناء منتجات رقمية سهلة الاستخدام، متجاوبة، وقابلة للوصول لمختلف المستخدمين.",
+        contactTitle: "لنعمل معًا",
+        contactDesc: "أبحث حاليًا عن فرصة تدريب تعاوني أستطيع من خلالها تطبيق مهاراتي في تصميم UI/UX، ومبادئ HCI، وتطوير الواجهات الأمامية.",
+        footer: "© 2026 غلا الكبكبي. جميع الحقوق محفوظة."
+      }
+    };
+
+    let currentLang = "en";
+
+    function setLanguage(lang) {
+      currentLang = lang;
+
+      document.documentElement.lang = lang;
+      document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
+
+      document.body.classList.remove("en", "ar");
+      document.body.classList.add(lang);
+
+      document.querySelector(".brand").innerHTML = translations[lang].brand;
+
+      document.querySelectorAll(".navbar a")[0].innerHTML = translations[lang].navHome;
+      document.querySelectorAll(".navbar a")[1].innerHTML = translations[lang].navProjects;
+      document.querySelectorAll(".navbar a")[2].innerHTML = translations[lang].navAbout;
+      document.querySelectorAll(".navbar a")[3].innerHTML = translations[lang].navContact;
+
+      document.querySelector(".eyebrow").innerHTML = translations[lang].eyebrow;
+      document.querySelector(".hero h1").innerHTML = translations[lang].title;
+      document.querySelector(".hero p").innerHTML = translations[lang].desc;
+      document.querySelector(".hero-buttons .btn").innerHTML = translations[lang].view;
+      document.querySelector(".hero-buttons .secondary").innerHTML = translations[lang].contactBtn;
+      document.querySelector(".screen-title").innerHTML = translations[lang].phoneTitle;
+
+      document.querySelector(".projects .section-header span").innerHTML = translations[lang].selectedWork;
+      document.querySelector(".projects .section-header h2").innerHTML = translations[lang].projectsTitle;
+      document.querySelector(".projects .section-header p").innerHTML = translations[lang].projectsDesc;
+
+      const cards = document.querySelectorAll(".project-card");
+
+      cards[0].querySelector(".project-image").innerHTML = translations[lang].project01;
+      cards[0].querySelector("h3").innerHTML = translations[lang].project01Title;
+      cards[0].querySelector("p").innerHTML = translations[lang].project01Desc;
+      cards[0].querySelector(".tag").innerHTML = translations[lang].project01Tag;
+
+      cards[1].querySelector(".project-image").innerHTML = translations[lang].project02;
+      cards[1].querySelector("h3").innerHTML = translations[lang].project02Title;
+      cards[1].querySelector("p").innerHTML = translations[lang].project02Desc;
+      cards[1].querySelector(".tag").innerHTML = translations[lang].project02Tag;
+
+      cards[2].querySelector(".project-image").innerHTML = translations[lang].project03;
+      cards[2].querySelector("h3").innerHTML = translations[lang].project03Title;
+      cards[2].querySelector("p").innerHTML = translations[lang].project03Desc;
+      cards[2].querySelector(".tag").innerHTML = translations[lang].project03Tag;
+
+      document.querySelector(".about .section-header span").innerHTML = translations[lang].aboutSpan;
+      document.querySelector(".about .section-header h2").innerHTML = translations[lang].aboutTitle;
+      document.querySelector(".about .section-header p").innerHTML = translations[lang].aboutDesc;
+      document.querySelector(".about-box p").innerHTML = translations[lang].aboutBox;
+
+      document.querySelector(".contact h2").innerHTML = translations[lang].contactTitle;
+      document.querySelector(".contact p").innerHTML = translations[lang].contactDesc;
+      document.querySelector("footer").innerHTML = translations[lang].footer;
+
+      langBtn.innerHTML = lang === "en" ? "AR" : "EN";
+
+      animatePhone();
+    }
+
+    langBtn.addEventListener("click", () => {
+      setLanguage(currentLang === "en" ? "ar" : "en");
+    });
 
     function animatePhone() {
       const scrollY = window.scrollY;
       const maxScroll = document.body.scrollHeight - window.innerHeight;
       const progress = Math.min(scrollY / maxScroll, 1);
 
-      const rotateY = -20 + progress * 380;
+      const direction = currentLang === "ar" ? -1 : 1;
+
+      const rotateY = direction * (-20 + progress * 380);
       const rotateX = 8 + progress * 30;
       const scale = 1 - progress * 0.18;
-      const moveX = progress * 34;
+      const moveX = direction * progress * 18;
       const moveY = progress * 110;
 
       phone.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(${scale})`;
@@ -569,7 +761,7 @@
     }
 
     window.addEventListener('scroll', animatePhone);
-    animatePhone();
+    setLanguage("en");
   </script>
 </body>
 </html>
