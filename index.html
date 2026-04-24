@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ghala Alkabkabi | UI/UX Portfolio</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #05070d;
+      color: #f5f7fb;
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .navbar {
+      position: fixed;
+      top: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      padding: 12px 24px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 999px;
+      background: rgba(10, 14, 25, 0.55);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.35);
+    }
+
+    .navbar a {
+      font-size: 14px;
+      color: #d7def0;
+      transition: 0.3s ease;
+    }
+
+    .navbar a:hover {
+      color: #ffffff;
+    }
+
+    .brand {
+      position: fixed;
+      top: 30px;
+      left: 40px;
+      z-index: 100;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: #ffffff;
+    }
+
+    .hero {
+      min-height: 100vh;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 120px 8% 80px;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 50% 35%, rgba(123, 167, 255, 0.23), transparent 28%),
+        radial-gradient(circle at 20% 80%, rgba(120, 80, 255, 0.18), transparent 30%),
+        linear-gradient(180deg, #05070d 0%, #070b14 100%);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 5;
+      text-align: center;
+      max-width: 950px;
+    }
+
+    .eyebrow {
+      margin-bottom: 18px;
+      font-size: 14px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #9eb7ff;
+    }
+
+    .hero h1 {
+      font-size: clamp(48px, 10vw, 138px);
+      line-height: 0.9;
+      letter-spacing: -5px;
+      text-transform: uppercase;
+      color: #eef4ff;
+      text-shadow: 0 0 45px rgba(158, 183, 255, 0.35);
+    }
+
+    .hero p {
+      margin: 28px auto 34px;
+      max-width: 640px;
+      color: #b7c0d8;
+      font-size: 18px;
+      line-height: 1.7;
+    }
+
+    .hero-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 14px 22px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      background: #eef4ff;
+      color: #05070d;
+      font-weight: 700;
+      transition: 0.3s ease;
+    }
+
+    .btn.secondary {
+      background: rgba(255, 255, 255, 0.06);
+      color: #f5f7fb;
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 18px 45px rgba(158, 183, 255, 0.25);
+    }
+
+    .phone-stage {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      z-index: 2;
+      width: 250px;
+      height: 500px;
+      transform: translate(-50%, -50%);
+      perspective: 1100px;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+    }
+
+    .phone-3d {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      transform: rotateX(8deg) rotateY(-20deg);
+      filter: drop-shadow(0 50px 70px rgba(0, 0, 0, 0.6));
+    }
+
+    .phone-body {
+      position: absolute;
+      inset: 0;
+      border-radius: 42px;
+      background: linear-gradient(135deg, #192034, #0a0d16 45%, #2d3b61);
+      border: 2px solid rgba(255, 255, 255, 0.25);
+      transform: translateZ(22px);
+      overflow: hidden;
+    }
+
+    .phone-body::before {
+      content: "";
+      position: absolute;
+      inset: 12px;
+      border-radius: 32px;
+      background:
+        linear-gradient(160deg, rgba(255, 255, 255, 0.14), transparent 35%),
+        radial-gradient(circle at 35% 25%, rgba(116, 164, 255, 0.45), transparent 30%),
+        linear-gradient(180deg, #10172a, #05070d);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+    }
+
+    .phone-content {
+      position: absolute;
+      inset: 35px 24px;
+      z-index: 3;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      color: #ffffff;
+      text-align: left;
+    }
+
+    .phone-notch {
+      position: absolute;
+      top: 18px;
+      left: 50%;
+      width: 78px;
+      height: 22px;
+      border-radius: 999px;
+      background: #05070d;
+      transform: translateX(-50%) translateZ(30px);
+      z-index: 5;
+    }
+
+    .screen-title {
+      margin-top: 36px;
+      font-size: 22px;
+      font-weight: 800;
+      line-height: 1.1;
+    }
+
+    .screen-card {
+      padding: 16px;
+      border-radius: 22px;
+      background: rgba(255, 255, 255, 0.09);
+      border: 1px solid rgba(255, 255, 255, 0.13);
+      backdrop-filter: blur(10px);
+    }
+
+    .screen-line {
+      height: 8px;
+      border-radius: 99px;
+      background: rgba(255, 255, 255, 0.7);
+      margin-bottom: 10px;
+    }
+
+    .screen-line.short {
+      width: 60%;
+    }
+
+    .orb {
+      position: absolute;
+      width: 390px;
+      height: 390px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(160, 190, 255, 0.23), transparent 65%);
+      filter: blur(2px);
+      animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-18px); }
+    }
+
+    section {
+      position: relative;
+      z-index: 10;
+      padding: 120px 8%;
+    }
+
+    .section-header {
+      max-width: 760px;
+      margin-bottom: 44px;
+    }
+
+    .section-header span {
+      display: inline-block;
+      margin-bottom: 12px;
+      color: #9eb7ff;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-size: 13px;
+    }
+
+    .section-header h2 {
+      font-size: clamp(34px, 5vw, 64px);
+      letter-spacing: -2px;
+      margin-bottom: 16px;
+    }
+
+    .section-header p {
+      color: #b7c0d8;
+      line-height: 1.8;
+      font-size: 17px;
+    }
+
+    .projects {
+      background: linear-gradient(180deg, #070b14 0%, #0a0f1e 100%);
+      min-height: 100vh;
+    }
+
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .project-card {
+      min-height: 390px;
+      padding: 24px;
+      border-radius: 34px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(14px);
+      transition: 0.35s ease;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .project-card:hover {
+      transform: translateY(-10px);
+      border-color: rgba(158, 183, 255, 0.45);
+    }
+
+    .project-image {
+      height: 190px;
+      border-radius: 24px;
+      margin-bottom: 24px;
+      background:
+        radial-gradient(circle at 30% 30%, rgba(158, 183, 255, 0.55), transparent 30%),
+        linear-gradient(135deg, #111a2f, #26375f);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255, 255, 255, 0.85);
+      font-weight: 800;
+      letter-spacing: 1px;
+    }
+
+    .project-card h3 {
+      font-size: 24px;
+      margin-bottom: 12px;
+    }
+
+    .project-card p {
+      color: #b7c0d8;
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(158, 183, 255, 0.12);
+      color: #cbd8ff;
+      font-size: 13px;
+    }
+
+    .about {
+      background: #05070d;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .about-box {
+      padding: 34px;
+      border-radius: 34px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .about-box p {
+      color: #c5ccdd;
+      line-height: 1.9;
+      font-size: 17px;
+    }
+
+    .skills-list {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-top: 24px;
+    }
+
+    .skill-item {
+      padding: 15px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.07);
+      color: #dbe4ff;
+    }
+
+    .contact {
+      min-height: 70vh;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background:
+        radial-gradient(circle at center, rgba(158, 183, 255, 0.18), transparent 35%),
+        #070b14;
+    }
+
+    .contact-inner {
+      max-width: 760px;
+    }
+
+    .contact h2 {
+      font-size: clamp(38px, 6vw, 80px);
+      letter-spacing: -3px;
+      margin-bottom: 20px;
+    }
+
+    .contact p {
+      color: #b7c0d8;
+      line-height: 1.8;
+      margin-bottom: 30px;
+      font-size: 18px;
+    }
+
+    footer {
+      padding: 28px 8%;
+      color: #8892aa;
+      text-align: center;
+      background: #05070d;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    @media (max-width: 900px) {
+      .brand {
+        left: 20px;
+        top: 24px;
+      }
+
+      .navbar {
+        top: auto;
+        bottom: 18px;
+        gap: 16px;
+        padding: 12px 18px;
+      }
+
+      .phone-stage {
+        width: 170px;
+        height: 340px;
+        opacity: 0.45;
+      }
+
+      .project-grid,
+      .about {
+        grid-template-columns: 1fr;
+      }
+
+      .hero h1 {
+        letter-spacing: -2px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="brand">GHALA</div>
+
+  <nav class="navbar">
+    <a href="#home">Home</a>
+    <a href="#projects">Projects</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+  </nav>
+
+  <div class="phone-stage" id="phoneStage">
+    <div class="phone-3d" id="phone3d">
+      <div class="phone-notch"></div>
+      <div class="phone-body">
+        <div class="phone-content">
+          <div class="screen-title">UI/UX<br />Portfolio</div>
+          <div class="screen-card">
+            <div class="screen-line"></div>
+            <div class="screen-line"></div>
+            <div class="screen-line short"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <header class="hero" id="home">
+    <div class="orb"></div>
+    <div class="hero-content">
+      <div class="eyebrow">Human-Computer Interaction Student</div>
+      <h1>Ghala<br />Alkabkabi</h1>
+      <p>I design user-centered and accessible digital experiences through UI/UX design, usability thinking, and front-end development.</p>
+      <div class="hero-buttons">
+        <a class="btn" href="#projects">View Projects</a>
+        <a class="btn secondary" href="#contact">Contact Me</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="projects" id="projects">
+    <div class="section-header">
+      <span>Selected Work</span>
+      <h2>Projects Coming Soon</h2>
+      <p>These project cards are ready. Replace the placeholder text and images with your Figma projects when you finish them.</p>
+    </div>
+
+    <div class="project-grid">
+      <article class="project-card">
+        <div class="project-image">PROJECT 01</div>
+        <h3>Mobile App Design</h3>
+        <p>A user-centered mobile app case study focused on simple navigation, clear visual hierarchy, and accessible interaction.</p>
+        <span class="tag">Figma Case Study</span>
+      </article>
+
+      <article class="project-card">
+        <div class="project-image">PROJECT 02</div>
+        <h3>Website Redesign</h3>
+        <p>A redesign project that improves usability, content structure, and overall user experience for a digital service.</p>
+        <span class="tag">UI/UX Redesign</span>
+      </article>
+
+      <article class="project-card">
+        <div class="project-image">PROJECT 03</div>
+        <h3>E-Commerce Experience</h3>
+        <p>A shopping experience designed to make browsing, product selection, and checkout easier and more trustworthy.</p>
+        <span class="tag">Product Design</span>
+      </article>
+    </div>
+  </section>
+
+  <section class="about" id="about">
+    <div class="section-header">
+      <span>About Me</span>
+      <h2>Designing simple and accessible digital experiences.</h2>
+      <p>I am a Human-Computer Interaction student interested in UI/UX design, accessibility, usability testing, and front-end development.</p>
+    </div>
+
+    <div class="about-box">
+      <p>I focus on understanding user needs and transforming them into clear, usable, and visually organized interfaces. My goal is to build digital products that are easy to use, responsive, and accessible for different users.</p>
+      <div class="skills-list">
+        <div class="skill-item">Figma</div>
+        <div class="skill-item">HTML5</div>
+        <div class="skill-item">CSS3</div>
+        <div class="skill-item">Flutter</div>
+        <div class="skill-item">User Research</div>
+        <div class="skill-item">Accessibility</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact" id="contact">
+    <div class="contact-inner">
+      <h2>Let’s Work Together</h2>
+      <p>I am currently seeking a cooperative training opportunity where I can apply UI/UX design, HCI principles, and front-end development skills.</p>
+      <a class="btn" href="mailto:galk1426@gmail.com">galk1426@gmail.com</a>
+    </div>
+  </section>
+
+  <footer>
+    © 2026 Ghala Alkabkabi. All rights reserved.
+  </footer>
+
+  <script>
+    const phone = document.getElementById('phone3d');
+    const phoneStage = document.getElementById('phoneStage');
+
+    function animatePhone() {
+      const scrollY = window.scrollY;
+      const maxScroll = document.body.scrollHeight - window.innerHeight;
+      const progress = Math.min(scrollY / maxScroll, 1);
+
+      const rotateY = -20 + progress * 380;
+      const rotateX = 8 + progress * 30;
+      const scale = 1 - progress * 0.18;
+      const moveX = progress * 34;
+      const moveY = progress * 110;
+
+      phone.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(${scale})`;
+      phoneStage.style.transform = `translate(calc(-50% + ${moveX}vw), calc(-50% + ${moveY}px))`;
+
+      if (scrollY > window.innerHeight * 2.2) {
+        phoneStage.style.opacity = '0.18';
+      } else {
+        phoneStage.style.opacity = '1';
+      }
+    }
+
+    window.addEventListener('scroll', animatePhone);
+    animatePhone();
+  </script>
+</body>
+</html>
